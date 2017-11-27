@@ -30,14 +30,16 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void saveInfo(View view) {
-        Cursor data = db.getData(nUSP.toString());
+        Usuario user = db.getData(nUSP.getText().toString());
 
-        if (data.moveToNext()) {
+        // Se o nUSP ja estiver cadastrado
+        if (user != null) {
             Toast.makeText(this, "Esse número usp já possui conta!", Toast.LENGTH_LONG).show();
         }
 
+        // Adicionando novo nUSP
         else {
-            db.addData(nUSP.toString(), senha.toString());
+            db.addData(nUSP.getText().toString(), senha.getText().toString());
 
             nUSP.setText("");
             senha.setText("");

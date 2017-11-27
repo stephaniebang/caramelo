@@ -41,19 +41,32 @@ public class UserData extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(tbl.col_name, name);
-        values.put(tbl.col_passw, passw);
+        values.put(FeedReaderContract.UserEntry.col_name, name);
+        values.put(FeedReaderContract.UserEntry.col_passw, passw);
 
         db.insert(tbl.TABLE_NAME, null, values);
     }
 
-    public Cursor getData(String name) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + tbl.col_passw + " FROM " + tbl.TABLE_NAME + " WHERE " +
-                tbl.col_name + " = '" + name + "'";
-
+    public Usuario getData(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + tbl.TABLE_NAME;
         Cursor data = db.rawQuery(query, null);
 
+        while (data.moveToNext()) {
+            if (data.getString(data.getColumnIndexOrThrow(tbl.col_name)).equals(name))
+                return new Usuario(
+                        data.getString(data.getColumnIndexOrThrow(tbl.col_name)),
+                        data.getString(data.getColumnIndexOrThrow(tbl.col_passw)));
+        }
+
+        return null;
+    }
+
+    public Cursor checkDatabase() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + tbl.TABLE_NAME;
+        Cursor data = db.rawQuery(query, null);
         return data;
     }
+
 }

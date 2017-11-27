@@ -25,15 +25,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tryLogin(View view) {
-        Cursor data = db.getData(login.toString());
+        Usuario user = db.getData(login.getText().toString());
 
-        if (!data.moveToNext()) {
+        // Se nao for encontrado o nUSP
+        if (user == null) {
             Toast.makeText(this, "Usuário não existe!", Toast.LENGTH_LONG).show();
 
             return;
         }
 
-        if (data.getString(data.getColumnIndexOrThrow(FeedReaderContract.UserEntry.col_passw)).equals(senha)) {
+        if (user.senha.equals(senha.getText().toString())) {
             Intent intent = new Intent(this, MainUsuario.class);
             startActivity(intent);
         }
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Usuário ou senha inválidos!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void checarDatabase(View view) {
+        Intent intent = new Intent(this, Teste.class);
+        startActivity(intent);
     }
 
     public void goToSignin(View view) {

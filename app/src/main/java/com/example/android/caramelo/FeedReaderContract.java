@@ -14,4 +14,12 @@ public class FeedReaderContract {
 
         public UserEntry() {};
     }
+
+    public static class ProductEntry implements BaseColumns {
+        public static final String TABLE_NAME = "products";
+        public static final String col_name = "name";
+        public static final String col_quant = "quantity";
+        public static final String col_descr = "description";
+        public static final String col_price = "price";
+    }
 }
